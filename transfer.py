@@ -10,11 +10,11 @@ import torch.optim as optim
 import requests
 from torchvision import transforms, models
 
-strt = time.time()
+start = time.time()
 # get the "features" portion of VGG19
 vgg = models.vgg19(pretrained=True).features
 
-# freeze VGG params to avoid chanhe
+# freeze VGG params to avoid change
 for param in vgg.parameters():
     param.requires_grad_(False)
 
@@ -50,9 +50,9 @@ def load_image(img_path, max_size=400, shape=None):
     return image
 
 # load in content and style image
-content = load_image('imgs/tanya_deepak.jpg').to(device)
+content = load_image('img/image0.jpg').to(device)
 # Resize style to match content, makes code easier
-style = load_image('imgs/delaunay_abstract.jpg', shape=content.shape[-2:]).to(device)
+style = load_image('img/abstract.jpg', shape=content.shape[-2:]).to(device)
 
 def im_convert(tensor):
     """ Display a tensor as an image. """
@@ -160,6 +160,6 @@ for ii in range(1, steps+1):
     optimizer.step()
 
 final = im_convert(target)
-matplotlib.image.imsave('imgs/tanya_deepak_delaunay.jpg', final)
+matplotlib.image.imsave('img/result.jpg', final)
 
 end = time.time()
